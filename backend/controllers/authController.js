@@ -16,7 +16,6 @@ module.exports.signup = async (req, res) => {
         res.status(201).json({ message: "User registered successfully", success: true, user: userModel })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: "Internal Server Error", success: false });
     }
 }
