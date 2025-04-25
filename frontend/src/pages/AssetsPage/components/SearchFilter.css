@@ -1,0 +1,106 @@
+.search-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  align-items: center;
+  padding: var(--space-16);
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-24);
+}
+
+.search-container {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-12);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--border-radius-md);
+  font-size: 16px;
+  transition: var(--transition-standard);
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.1);
+  outline: none;
+}
+
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: var(--color-neutral-600);
+}
+
+.filter-select {
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--border-radius-md);
+  background-color: white;
+  font-size: 14px;
+  transition: var(--transition-standard);
+}
+
+.filter-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.1);
+  outline: none;
+}
+
+.sort-order-button {
+  background-color: var(--color-neutral-100);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-standard);
+  font-size: 14px;
+}
+
+.sort-order-button:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.sort-order-button.asc {
+  color: var(--color-primary);
+}
+
+.sort-order-button.desc {
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .search-filter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-16);
+  }
+  
+  .filters-container {
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+  
+  .filter-group {
+    flex-wrap: wrap;
+  }
+}

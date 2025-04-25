@@ -1,17 +1,24 @@
 require('dotenv').config()
 const express = require('express');
 const cors = require('cors')
-const mongoose = require('mongoose');
-const routes = require('./routes/authRoutes.js');
 const connectDB = require('./config/db.js');
+const UserRouter = require('./routes/userRoutes.js');
 
 const app = express();
 const PORT = process.env.PORT || 3777
 
 app.use(express.json());
-app.use(cors())
-app.use('/api/auth', routes)
+// Configure CORS to allow requests from frontend
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    optionsSuccessStatus: 204
+}))
 
+
+app.use("/api/user",UserRouter)
 
 connectDB.then(()=>{
     app.listen(PORT, ()=>{

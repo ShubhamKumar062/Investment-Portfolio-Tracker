@@ -1,0 +1,121 @@
+.comparison-page {
+  padding: var(--space-8);
+}
+
+.comparison-header {
+  margin-bottom: var(--space-24);
+}
+
+.comparison-controls {
+  display: flex;
+  gap: var(--space-24);
+  padding: var(--space-24);
+  margin-bottom: var(--space-24);
+}
+
+.control-section {
+  flex: 1;
+}
+
+.control-section h3 {
+  font-size: 16px;
+  margin-bottom: var(--space-16);
+  color: var(--color-neutral-800);
+}
+
+.asset-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.asset-button {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+  border: none;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: var(--transition-standard);
+}
+
+.asset-button:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.asset-button.selected {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.benchmark-selector select {
+  width: 100%;
+  padding: var(--space-12);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--border-radius-md);
+  background-color: white;
+  font-size: 16px;
+  transition: var(--transition-standard);
+}
+
+.benchmark-selector select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.1);
+  outline: none;
+}
+
+.time-range-selector {
+  display: flex;
+  background-color: var(--color-neutral-100);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-2);
+}
+
+.time-range-button {
+  background: transparent;
+  border: none;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-neutral-700);
+}
+
+.time-range-button:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.time-range-button.active {
+  background-color: white;
+  color: var(--color-primary);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+
+.comparison-chart {
+  padding: var(--space-24);
+}
+
+.chart-container {
+  height: 400px;
+  position: relative;
+}
+
+.empty-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: var(--color-neutral-600);
+}
+
+@media (max-width: 768px) {
+  .comparison-controls {
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+  
+  .chart-container {
+    height: 300px;
+  }
+}
