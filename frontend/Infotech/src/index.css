@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  color: #F9FAFB;
+}
+
+.moving-bg {
+  background: linear-gradient(45deg, 
+    rgba(51, 102, 255, 0.15) 0%,
+    rgba(140, 82, 255, 0.15) 25%, 
+    rgba(54, 211, 153, 0.15) 50%,
+    rgba(255, 189, 73, 0.15) 75%,
+    rgba(255, 87, 36, 0.15) 100%);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(51, 102, 255, 0.5),
+               0 0 20px rgba(51, 102, 255, 0.3),
+               0 0 30px rgba(51, 102, 255, 0.2);
+}
+
+.neon-border {
+  box-shadow: 0 0 10px rgba(51, 102, 255, 0.3),
+              0 0 20px rgba(51, 102, 255, 0.2),
+              inset 0 0 10px rgba(51, 102, 255, 0.2);
+}
+
+.tech-font {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px) }
+  50% { transform: translateY(-10px) }
+  100% { transform: translateY(0px) }
+}
+
+.scroll-indicator {
+  animation: scrollDown 2s ease-in-out infinite;
+}
+
+@keyframes scrollDown {
+  0% { transform: translateY(0); opacity: 1 }
+  50% { transform: translateY(10px); opacity: 0.5 }
+  100% { transform: translateY(0); opacity: 1 }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20 shadow-lg rounded-2xl;
+  }
+  
+  .glass-input {
+    @apply bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 text-white placeholder-gray-400;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-opacity-50 neon-border;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary-500 hover:bg-secondary-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secondary-400 focus:ring-opacity-50;
+  }
+  
+  .btn-accent {
+    @apply bg-accent-500 hover:bg-accent-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-opacity-50;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent hover:bg-white hover:bg-opacity-10 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-20;
+  }
+
+  .tech-card {
+    @apply glass-card p-6 hover:bg-opacity-20 transition-all duration-300 transform hover:scale-105 hover:neon-border;
+  }
+}
