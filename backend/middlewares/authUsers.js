@@ -16,7 +16,7 @@ const authUser = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Attach user info to req object instead of req.body
-    req.user = { id: decoded.id };
+    req.user = decoded
 
     next(); // Proceed to next middleware or route handler
   } catch (error) {
