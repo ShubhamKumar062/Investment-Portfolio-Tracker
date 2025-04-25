@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3777
 app.use(express.json());
 // Configure CORS to allow requests from frontend
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173','http://localhost:5174'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],

@@ -81,6 +81,8 @@ const Login = ({ onLogin }) => {
         }, { withCredentials: true });
         
         if (response.data.success) {
+
+          console.log(response.data.token)
           localStorage.setItem('token', response.data.token);
           setToken(response.data.token);
           toast.success("Login successful!");

@@ -30,20 +30,24 @@ export const AppContentProvider = ({ children }) => {
     // Fetch user data
     const getUserData = useCallback(async () => {
         if (!token) return;
-        
+
         const source = axios.CancelToken.source();
         try {
             const { data } = await axios.get(
-                `${backendUrl}/api/user/get-user`, 
+                `${backendUrl}/api/user/get-user`,
                 {
                     ...getAuthHeaders(),
                     cancelToken: source.token,
                     timeout: 10000
                 }
             );
-    
+            console.log(data)
+
             if (data.success) {
+                console.log("Hi")
+                console.log(data.userData)
                 setUserData(data.userData);
+                localStorage.setItem('userDetails', data.userData);
             } else {
                 toast.error(data.message);
             }
@@ -56,26 +60,26 @@ export const AppContentProvider = ({ children }) => {
         return () => source.cancel('Request canceled by component unmount');
     }, [backendUrl, token, getAuthHeaders]);
 
-    // Check authentication state
+
     const getAuthState = useCallback(async () => {
         if (!token) return;
-        
+
         console.log("Token in localStorage:", token ? `${token.substring(0, 10)}...` : 'Not found');
         const source = axios.CancelToken.source();
-        
+
         try {
             console.log("Sending auth check request with token");
             const response = await axios.get(
-                `${backendUrl}/api/user/is-auth`, 
+                `${backendUrl}/api/user/is-auth`,
                 {
                     ...getAuthHeaders(),
                     cancelToken: source.token,
                     timeout: 10000
                 }
             );
-            
+
             console.log("Auth check response:", response.data);
-            
+
             if (response.data.success) {
                 setIsLoggedIn(true);
                 await getUserData();
@@ -99,10 +103,10 @@ export const AppContentProvider = ({ children }) => {
     const login = useCallback(async (credentials) => {
         try {
             const { data } = await axios.post(
-                `${backendUrl}/api/auth/login`, 
+                `${backendUrl}/api/auth/login`,
                 credentials
             );
-            
+
             if (data.success) {
                 localStorage.setItem('token', data.token);
                 setToken(data.token);
@@ -126,7 +130,7 @@ export const AppContentProvider = ({ children }) => {
         try {
             // Optional: Call logout endpoint if you have one
             // await axios.post(`${backendUrl}/api/auth/logout`, {}, getAuthHeaders());
-            
+
             // Clear local storage and state
             localStorage.removeItem('token');
             setToken(null);
@@ -138,24 +142,24 @@ export const AppContentProvider = ({ children }) => {
             toast.error("Logout failed");
         }
     }, []);
-    
+
     // Check auth state on mount or token change
     useEffect(() => {
         if (token) {
             getAuthState();
         }
     }, [token, getAuthState]);
-    
+
     // Asset management functions
     const updatePortfolioData = useCallback((currentAssets) => {
         // Avoid division by zero
         const totalInvestment = currentAssets.reduce((sum, asset) => sum + asset.initialValue, 0);
         const totalValue = currentAssets.reduce((sum, asset) => sum + asset.value, 0);
         const totalProfit = totalValue - totalInvestment;
-        
+
         // Calculate profit percentage safely
-        const profitPercentage = totalInvestment > 0 
-            ? (totalProfit / totalInvestment) * 100 
+        const profitPercentage = totalInvestment > 0
+            ? (totalProfit / totalInvestment) * 100
             : 0;
 
         setPortfolioData({
@@ -185,7 +189,7 @@ export const AppContentProvider = ({ children }) => {
 
     const updateAsset = useCallback((updatedAsset) => {
         setAssets(prevAssets => {
-            const updatedAssets = prevAssets.map(asset => 
+            const updatedAssets = prevAssets.map(asset =>
                 asset.id === updatedAsset.id ? updatedAsset : asset
             );
             updatePortfolioData(updatedAssets);
@@ -212,10 +216,10 @@ export const AppContentProvider = ({ children }) => {
         login,
         logout
     }), [
-        backendUrl, 
-        isLoggedIn, 
-        userData, 
-        assets, 
+        backendUrl,
+        isLoggedIn,
+        userData,
+        assets,
         portfolioData,
         token,
         addAsset,
@@ -227,8 +231,8 @@ export const AppContentProvider = ({ children }) => {
     ]);
 
     return (
-       <AppContent.Provider value={value}>
-        {children}
-       </AppContent.Provider>
+        <AppContent.Provider value={value}>
+            {children}
+        </AppContent.Provider>
     );
 };

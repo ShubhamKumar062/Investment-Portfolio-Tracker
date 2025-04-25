@@ -58,6 +58,10 @@ const Navbar = ({ toggleSidebar }) => {
     };
   }, []);
 
+ 
+
+  
+
   return (
     <header className={`merged-header ${isAuthenticated ? 'authenticated' : 'public'}`}>
       <div className="header-content">
@@ -114,6 +118,7 @@ const Navbar = ({ toggleSidebar }) => {
                 aria-expanded={showDropdown}
               >
                 <div className="user-avatar">
+                  
                   {userData?.name ? userData.name[0].toUpperCase() : 'U'}
                 </div>
                 <span className="user-name">{userData?.name || 'User'}</span>
