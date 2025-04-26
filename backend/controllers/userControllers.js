@@ -131,11 +131,13 @@ const isAuth = async (req, res) => {
 const addAsset = async (req, res) => {
 
   try {
-    const { assetName, symbol, assetType, Quantity, currentPrice, purchaseDate, logoUrl } = req.body || {};
+    const { assetName, symbol, assetType, Quantity, currentPrice, purchaseDate, logoUrl, purchasePrice } = req.body || {};
 
 
 
-    if (!assetName || !symbol || !assetType || !Quantity || !purchaseDate || !currentPrice || !logoUrl) {
+
+
+    if (!assetName || !symbol || !assetType || !Quantity || !purchaseDate || !currentPrice || !logoUrl || !purchasePrice) {
       return res.status(403).json({
         status: false,
         message: "All Fields Are Required",
@@ -143,20 +145,25 @@ const addAsset = async (req, res) => {
       });
     }
 
-    const parsedQuantity = parseInt(Quantity, 10);
-    if (isNaN(parsedQuantity)) {
-      return res.status(403).json({
-        status: false,
-        message: "Quantity should be a valid number",
-        data: null
-      });
-    }
+    console.log(Quantity)
+
+
 
     const parsedPrice = parseFloat(currentPrice);
     if (isNaN(parsedPrice)) {
       return res.status(403).json({
         status: false,
         message: "Current Price should be a valid number",
+        data: null
+      });
+    }
+
+
+    const parsedPurchasedPrice = parseFloat(purchasePrice);
+    if (isNaN(parsedPrice)) {
+      return res.status(403).json({
+        status: false,
+        message: "Purchased Price should be a valid number",
         data: null
       });
     }
@@ -172,20 +179,21 @@ const addAsset = async (req, res) => {
 
     try {
       let addAsset = await asset.insertOne({
-        userId:req.user.id,
+        userId: req.user.id,
         assetName,
         symbol,
         assetType,
-        quantity: parsedQuantity,
+        Quantity: Number(Quantity),
         purchaseDate: parsedDate,
         currentPrice: parsedPrice,
+        purchasePrice: parsedPurchasedPrice,
         logoUrl
       })
 
       if (addAsset._id) {
         return res.status(200).json({
           status: true,
-          message: "asset added sucessfully",
+          message: "asset added sucessfullys",
           data: null
         });
       }
@@ -209,5 +217,51 @@ const addAsset = async (req, res) => {
 
 
 
+const getAssetDetails = async (req, res) => {
+  try {
+    let assetDetails = await asset.find({ userId: req.user.id });
 
-module.exports = { registerUser, loginUser, getUserData, isAuth, addAsset };
+    if (assetDetails.length === 0) {
+      return res.status(403).json({
+        status: false,
+        message: "No Assets Found",
+        data: null
+      });
+    }
+
+   
+    const transformedAssets = assetDetails.map((assetItem, index) => ({
+      id: (index + 1).toString(), 
+      taskId: assetItem._id.toString(), 
+      name: assetItem.assetName,
+      symbol: assetItem.symbol,
+      type: assetItem.assetType,
+      quantity: assetItem.Quantity || 0, 
+      purchasePrice: assetItem.purchasePrice || 0,
+      currentPrice: assetItem.currentPrice,
+      purchaseDate: assetItem.purchaseDate.toISOString().split('T')[0], 
+      logoUrl: assetItem.logoUrl
+    }));
+
+    return res.status(200).json({
+      status: true,
+      message: "Assets fetched successfully",
+      data: transformedAssets
+    });
+
+  } catch (error) {
+    return res.status(403).json({
+      status: false,
+      message: error.message,
+      data: null
+    });
+  }
+}
+
+
+
+
+
+
+
+module.exports = { registerUser, loginUser, getUserData, isAuth, addAsset, getAssetDetails };

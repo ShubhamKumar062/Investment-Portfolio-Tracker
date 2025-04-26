@@ -111,6 +111,7 @@ export default function AssetForm({ onClose, initialAsset = null }) {
             Quantity: assetData.quantity,
             purchaseDate: assetData.purchaseDate,
             currentPrice: assetData.currentPrice,
+            purchasePrice: assetData.purchasePrice,
             logoUrl: assetData.logoUrl,
           },
           {

@@ -18,11 +18,14 @@ const assetSchema = new mongoose.Schema({
     },
     Quantity: {
         type: Number,
+
     },
     purchaseDate: {
         type: Date,
     },
-
+    purchasePrice: {
+        type: Number,
+    },
     currentPrice: {
         type: Number,
     },
