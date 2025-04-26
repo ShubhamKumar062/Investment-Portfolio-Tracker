@@ -2,9 +2,10 @@ const validate = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userModels = require("../models/userModels");
+const asset = require("../models/asset.model.js");
 
 
-// Register User
+
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -13,9 +14,9 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ success: false, message: "Missing Details" });
     }
 
-    if (!validate.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Enter a valid email" });
-    }
+    // if (!validate.isEmail(email)) {
+    //   return res.status(400).json({ success: false, message: "Enter a valid email" });
+    // }
 
     if (password.length < 6) {
       return res.status(400).json({ success: false, message: "Enter a strong password (min. 6 chars)" });
@@ -58,7 +59,7 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
     res.status(200).json({ success: true, token });
   } catch (error) {
@@ -69,7 +70,7 @@ const loginUser = async (req, res) => {
 
 const getUserData = async (req, res) => {
   try {
-    
+
 
     let UserId = req.user?.id
 
@@ -127,5 +128,86 @@ const isAuth = async (req, res) => {
 }
 
 
+const addAsset = async (req, res) => {
 
-module.exports = { registerUser, loginUser, getUserData, isAuth };
+  try {
+    const { assetName, symbol, assetType, Quantity, currentPrice, purchaseDate, logoUrl } = req.body || {};
+
+
+
+    if (!assetName || !symbol || !assetType || !Quantity || !purchaseDate || !currentPrice || !logoUrl) {
+      return res.status(403).json({
+        status: false,
+        message: "All Fields Are Required",
+        data: null
+      });
+    }
+
+    const parsedQuantity = parseInt(Quantity, 10);
+    if (isNaN(parsedQuantity)) {
+      return res.status(403).json({
+        status: false,
+        message: "Quantity should be a valid number",
+        data: null
+      });
+    }
+
+    const parsedPrice = parseFloat(currentPrice);
+    if (isNaN(parsedPrice)) {
+      return res.status(403).json({
+        status: false,
+        message: "Current Price should be a valid number",
+        data: null
+      });
+    }
+
+    const parsedDate = new Date(purchaseDate);
+    if (isNaN(parsedDate.getTime())) {
+      return res.status(403).json({
+        status: false,
+        message: "Purchase Date should be a valid date",
+        data: null
+      });
+    }
+
+    try {
+      let addAsset = await asset.insertOne({
+        userId:req.user.id,
+        assetName,
+        symbol,
+        assetType,
+        quantity: parsedQuantity,
+        purchaseDate: parsedDate,
+        currentPrice: parsedPrice,
+        logoUrl
+      })
+
+      if (addAsset._id) {
+        return res.status(200).json({
+          status: true,
+          message: "asset added sucessfully",
+          data: null
+        });
+      }
+
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: error.message,
+        data: null
+      });
+    }
+
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+      data: null
+    });
+  }
+};
+
+
+
+
+module.exports = { registerUser, loginUser, getUserData, isAuth, addAsset };

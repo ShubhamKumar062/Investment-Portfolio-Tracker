@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/AuthContext';
 
+
 // Stock chart background
 const chartBgUrl = 'https://png.pngtree.com/background/20230527/original/pngtree-digital-market-trading-with-graphs-on-dark-wall-picture-image_2756211.jpg';
 
