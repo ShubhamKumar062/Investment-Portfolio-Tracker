@@ -7,6 +7,7 @@ import Sidebar from '../components/Layout/Sidebar';
 import { usePortfolio } from '../contexts/PortfolioContext';
 import { assetTypes, marketIndices } from '../data/mockData';
 import { formatCurrency } from '../utils/formatters';
+import ChatBotToggle from '../components/chatbot';
 
 export default function ComparisonTool() {
   const { assets, getAssetHistoricalData } = usePortfolio();
@@ -309,6 +310,7 @@ export default function ComparisonTool() {
           )}
         </motion.div>
         
+        <ChatBotToggle />
         {/* Comparison Chart */}
         <motion.div 
           className="glass-card p-6"

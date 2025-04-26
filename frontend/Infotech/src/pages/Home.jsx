@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FiArrowRight, FiCheck, FiBarChart2, FiPieChart, FiTrendingUp } from 'react-icons/fi';
+import ChatBotToggle from '../components/chatbot';
 
 // Hero section background
 const heroBgUrl = 'https://images.pexels.com/photos/7567443/pexels-photo-7567443.jpeg?auto=compress&cs=tinysrgb&w=1600';
@@ -363,6 +364,7 @@ export default function Home() {
         </motion.div>
       </section>
 
+        <ChatBotToggle />
       {/* Footer */}
       <footer className="bg-gray-900 py-12 px-4">
         <div className="max-w-7xl mx-auto">
