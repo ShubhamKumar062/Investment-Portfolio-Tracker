@@ -14,7 +14,7 @@ const assetSchema = new mongoose.Schema({
     },
     assetType: {
         type: String,
-        enum: ['Stocks', 'Commodities', 'Forex', 'Bonds', "ETSs", "Cryptocurrencies"],
+        enum: ['stock', 'commodity', 'forex', 'bond', "etf", "crypto"],
     },
     Quantity: {
         type: Number,
