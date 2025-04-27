@@ -5,7 +5,7 @@ export default function ProtectedRoute({ children }) {
   const { currentUser } = useAuth();
 
   if (!currentUser) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;
