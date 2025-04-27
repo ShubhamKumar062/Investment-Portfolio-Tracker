@@ -1,58 +1,243 @@
-# 🚀 Investment Portfolio Tracker
+# Investment Portfolio Tracker 📈 💹
 
-Redefining how individuals manage and visualize their investments.  
-This isn't just another finance tool. It's a **dynamic, AI-enhanced platform** built to give you full control, insight, and interaction with your portfolio — beautifully and powerfully.
+A full-stack investment portfolio tracking application built with the MERN stack (MongoDB, Express.js, React, Node.js). This application helps investors manage and track their investment portfolios across multiple asset classes including stocks, commodities, forex, bonds, ETFs, and cryptocurrencies.
 
----
+## Overview 🌟
 
-## 🧠 Platform Overview
+The Investment Portfolio Tracker provides a comprehensive solution for investors to:
+- Track multiple investment portfolios in real-time
+- Monitor performance across different asset classes
+- Visualize portfolio allocation and returns
+- Receive email notifications for important updates
+- Manage user authentication securely
 
-We built a high-performance **MERN-powered** Investment Tracker that combines **real-time data visualization**, **interactive AI chatbot**, and **modern UI/UX animations** — all optimized for seamless experience.
+## Project Structure 🏗️
 
----
+```
+📦 Investment-Portfolio-Tracker
+├── 🎯 frontend
+│   └── Infotech
+│       ├── 📱 src
+│       │   ├── components
+│       │   ├── pages
+│       │   ├── services
+│       │   ├── assets
+│       │   ├── App.jsx
+│       │   └── main.jsx
+│       ├── 🎨 public
+│       └── 📝 package.json
+│
+└── ⚙️ backend
+    ├── 🔧 config
+    │   └── db.js
+    ├── 🎮 controllers
+    │   └── userControllers.js
+    ├── 🔒 middlewares
+    │   └── authUsers.js
+    ├── 📊 models
+    │   ├── asset.model.js
+    │   └── userModels.js
+    ├── 🛣️ routes
+    │   └── userRoutes.js
+    ├── 🛠️ utils
+    │   └── sendmail.js
+    ├── 📝 package.json
+    └── 🚀 app.js
+```
 
-## 🔥 Powered by MERN Stack
+## Tech Stack 🛠️
 
-Custom-built with full-stack technologies for complete control over APIs, database logic, and stunning front-end interactivity.
+### Frontend 🎯
+- React.js with Vite
+- Chart.js for data visualization
+- TailwindCSS for styling
+- React Router for navigation
+- React Icons
+- Framer Motion for animations
 
-- **Frontend**: React.js + Tailwind CSS + Framer Motion + Chart.js
-- **Backend**: Node.js + Express.js + MongoDB
-- **AI Assistant**: Integrated smart chatbot for portfolio queries
+### Backend ⚙️
+- Node.js & Express.js
+- MongoDB with Mongoose
+- JWT for authentication
+- Bcrypt for password hashing
+- Nodemailer for email functionality
 
----
+## Getting Started 🚀
 
-## 🔧 Tech Stack
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB installed and running
+- npm or yarn package manager
 
-| Feature         | Technology Used                             |
-|-----------------|----------------------------------------------|
-| Frontend        | React.js, Vite, Tailwind CSS, Framer Motion  |
-| Charts/Graphs   | Chart.js 📊                                 |
-| Routing         | React Router DOM 📍                         |
-| Styling         | Tailwind CSS + Animations                   |
-| Backend         | Node.js + Express.js 🚂                      |
-| Database        | MongoDB (Mongoose) 🍃                       |
-| Authentication  | JWT (Coming Soon) 🔒                        |
-| AI Chatbot      | Integrated Chatbot 🤖                       |
+### Installation 📥
 
----
+1. Clone the repository
+```bash
+git clone <repository-url>
+cd Investment-Portfolio-Tracker
+```
 
-## 🔍 Core Features
+2. Set up environment variables
+```bash
+# In backend directory, create .env file
+PORT=3777
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+EMAIL_SERVICE=your_email_service
+EMAIL_USER=your_email_username
+EMAIL_PASS=your_email_password
+```
 
-- 🎯 **Real-time Investment Tracking** – View and manage your assets effortlessly  
-- 📊 **Interactive Graphs** – Beautifully crafted data visualizations  
-- 🤖 **AI Chatbot** – Get instant answers about your portfolio  
-- 🎨 **Sleek UI/UX** – Powered by Tailwind CSS + Framer Motion animations  
-- 🔐 **Secure APIs** – Node.js and Express.js backend  
-- 📈 **Portfolio Performance Insights** – Understand growth, risks, and opportunities  
+3. Install Backend Dependencies
+```bash
+cd backend
+npm install
+```
 
----
+4. Install Frontend Dependencies
+```bash
+cd ../frontend
+npm install
+```
 
-## 📁 Project Structure
+5. Configure Frontend Environment
+```bash
+# In frontend directory, create .env file
+VITE_APP_API_URL=http://localhost:3777/api
+```
 
-### Backend
-backend/ ┣ models/ ┣ routes/ ┣ controllers/ ┣ middleware/ ┣ server.js ┗ .env
+### Running the Application 🏃‍♂️
 
-### Frontend
-src/ ┣ assets/ ┣ components/ ┣ pages/ ┣ api/ ┣ chatbot/ ┣ charts/ ┣ animations/ ┗ main.jsx 
+1. Start the Backend Server
+```bash
+cd backend
+npm run dev
+# Server will start on http://localhost:3777
+```
 
-## Live Demo
+2. Start the Frontend Development Server
+```bash
+cd frontend
+npm run dev
+# Frontend will be available on http://localhost:5173
+```
+
+### API Endpoints 🛣️
+
+#### Authentication
+- POST `/api/user/signup` - Register new user
+- POST `/api/user/login` - User login
+- GET `/api/user/is-auth` - Check authentication status
+
+#### Portfolio Management
+- GET `/api/user/get-user` - Get user profile data
+- POST `/api/user/addasset` - Add new asset to portfolio
+- GET `/api/user/getassets` - Get all user assets
+- DELETE `/api/user/deleteasset/:assetId` - Delete an asset
+
+### Development Best Practices 👨‍💻
+
+1. Code Style
+- Follow ESLint configuration
+- Use meaningful variable and function names
+- Write comments for complex logic
+- Follow component-based architecture
+
+2. Git Workflow
+- Create feature branches for new features
+- Write meaningful commit messages
+- Review code before merging
+- Keep commits atomic and focused
+
+3. Testing
+- Write unit tests for components
+- Test API endpoints
+- Perform integration testing
+- Conduct user acceptance testing
+
+### Deployment 🚀
+
+1. Backend Deployment
+- Set up production environment variables
+- Configure MongoDB Atlas connection
+- Set up proper CORS settings
+- Configure email service
+
+2. Frontend Deployment
+- Build production assets
+- Configure environment variables
+- Set up CDN for static assets
+- Configure routing
+
+### Troubleshooting 🔧
+
+Common Issues:
+1. Connection Issues
+- Check MongoDB connection string
+- Verify API endpoint URLs
+- Check CORS configuration
+
+2. Authentication Problems
+- Verify JWT token
+- Check authorization headers
+- Validate user credentials
+
+3. Asset Management Issues
+- Verify asset data format
+- Check API response structure
+- Validate user permissions
+
+## Features 💫
+
+### User Authentication and Authorization 🔐
+- Secure user registration and login system
+- JWT-based authentication
+- Password hashing using bcrypt
+- Protected routes and API endpoints
+- Email verification system
+
+### Investment Portfolio Management 📊
+- Create and manage multiple investment portfolios
+- Add, update, and delete investment assets
+- Track investment performance over time
+- Calculate portfolio returns and profits/losses
+- Support for multiple asset classes:
+  - Stocks
+  - Commodities
+  - Forex
+  - Bonds
+  - ETFs
+  - Cryptocurrencies
+
+### Asset Tracking 📱
+- Real-time asset price updates
+- Historical price data visualization
+- Asset performance metrics
+- Custom asset notes and tags
+- Asset allocation analysis
+
+### Data Visualization 📈
+- Interactive charts using Chart.js
+- Portfolio composition breakdown
+- Performance trends over time
+- Asset allocation pie charts
+- Gain/loss visualization
+
+### Email Notifications 📧
+- Price alert notifications
+- Portfolio performance updates
+- Account security alerts
+- Custom notification preferences
+
+### Responsive Design 🎨
+- Mobile-first approach
+- Smooth animations with Framer Motion
+- Intuitive user interface
+- Cross-browser compatibility
+- Tailwind CSS for modern styling
+
+## Contributing 🤝
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License 📄
+This project is licensed under the ISC License.
