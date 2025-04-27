@@ -1,53 +1,80 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { mockAssets, mockHistoricalData } from '../data/mockData';
-import axios from 'axios'
+// PortfolioContext.js
 
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { useAuth } from './AuthContext';  // Import the auth context to track user login state
+
+// Create the context
 const PortfolioContext = createContext(null);
 
+// Custom hook to use the portfolio context
 export function usePortfolio() {
   return useContext(PortfolioContext);
 }
 
+// Provider component
 export function PortfolioProvider({ children }) {
+  const { currentUser } = useAuth(); // Access the currentUser from AuthContext
+
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [portfolioValue, setPortfolioValue] = useState(0);
   const [portfolioChangePercent, setPortfolioChangePercent] = useState(0);
   const [portfolioChangeAmount, setPortfolioChangeAmount] = useState(0);
 
-  // Load initial data
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const token = localStorage.getItem('token'); // assuming you store the token in localStorage
+  // Fetch assets from API when user logs in
+  const loadData = useCallback(async () => {
+    if (!currentUser) {
+      console.log("User is not logged in.");
+      setAssets([]);
+      setLoading(false);
+      return;
+    }
 
-        const response = await axios.get('http://localhost:3777/api/user/getassets', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.data.status) {
-          const fetchedAssets = response.data.data;
-          setAssets(fetchedAssets);
-          calculatePortfolioStats(fetchedAssets);
-        } else {
-          console.error('Failed to fetch assets:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error loading portfolio data:', error);
-      } finally {
+    setLoading(true);
+    try {
+      const token = currentUser.token;
+      if (!token) {
+        console.error('No token found');
+        setAssets([]);
         setLoading(false);
+        return;
       }
-    };
 
+      const response = await axios.get('http://localhost:3777/api/user/getassets', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.data.status) {
+        console.log('Assets fetched from API');
+        const fetchedAssets = response.data.data;
+        setAssets(fetchedAssets);
+        calculatePortfolioStats(fetchedAssets);
+      } else {
+        console.error('Failed to fetch assets:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching portfolio data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentUser]);
+
+  // Always fetch from API when component mounts or currentUser changes
+  useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
+
   // Calculate portfolio statistics
   const calculatePortfolioStats = (assetList) => {
-    const totalValue = assetList.reduce((sum, asset) => sum + (asset.currentPrice * asset.quantity), 0);
-    const totalInvested = assetList.reduce((sum, asset) => sum + (asset.purchasePrice * asset.quantity), 0);
+    const totalValue = assetList.reduce(
+      (sum, asset) => sum + asset.currentPrice * asset.quantity,
+      0
+    );
+    const totalInvested = assetList.reduce(
+      (sum, asset) => sum + asset.purchasePrice * asset.quantity,
+      0
+    );
     const changeAmount = totalValue - totalInvested;
     const changePercent = totalInvested > 0 ? (changeAmount / totalInvested) * 100 : 0;
 
@@ -57,57 +84,98 @@ export function PortfolioProvider({ children }) {
   };
 
   // Add a new asset
-  const addAsset = (newAsset) => {
-    const updatedAssets = [...assets, { ...newAsset, id: Date.now().toString() }];
-    setAssets(updatedAssets);
-    localStorage.setItem('portfolio-assets', JSON.stringify(updatedAssets));
-    calculatePortfolioStats(updatedAssets);
-    return updatedAssets;
+  const addAsset = async (newAsset) => {
+    try {
+      const token = currentUser.token;
+      const response = await axios.post(
+        'http://localhost:3777/api/user/addasset',
+        newAsset,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.status) {
+        console.log('Asset added successfully');
+        await loadData(); // reload after adding
+      } else {
+        console.error('Failed to add asset:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error adding asset:', error);
+    }
   };
 
   // Update an existing asset
-  const updateAsset = (updatedAsset) => {
-    const updatedAssets = assets.map(asset =>
-      asset.id === updatedAsset.id ? updatedAsset : asset
-    );
-    setAssets(updatedAssets);
-    localStorage.setItem('portfolio-assets', JSON.stringify(updatedAssets));
-    calculatePortfolioStats(updatedAssets);
-    return updatedAssets;
+  const updateAsset = async (updatedAsset) => {
+    try {
+      const token = currentUser.token;
+      const response = await axios.put(
+        `https://investment-backend.vercel.app/api/user/updateasset/${updatedAsset.id}`,
+        updatedAsset,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.status) {
+        console.log('Asset updated successfully');
+        await loadData(); // reload after updating
+      } else {
+        console.error('Failed to update asset:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error updating asset:', error);
+    }
   };
 
   // Remove an asset
-  const removeAsset = (assetId) => {
-    const updatedAssets = assets.filter(asset => asset.id !== assetId);
-    setAssets(updatedAssets);
-    localStorage.setItem('portfolio-assets', JSON.stringify(updatedAssets));
-    calculatePortfolioStats(updatedAssets);
-    return updatedAssets;
+  const removeAsset = async (assetId) => {
+    try {
+      const token = currentUser.token;
+      const response = await axios.delete(
+        `https://investment-backend.vercel.app/api/user/deleteasset/${assetId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      if (response.data.status) {
+        toast.success('Asset deleted successfully!'); // ✅ success toast
+        await loadData(); // reload after deleting
+      } else {
+        toast.error(response.data.message || 'Failed to delete asset'); // ❌ error toast
+        console.error('Failed to delete asset:', response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Something went wrong while deleting'); // ❌ error toast
+      console.error('Error deleting asset:', error);
+    }
   };
 
-  // Get historical data for an asset
+  // Optional: Mock function for historical data (can be implemented later)
   const getAssetHistoricalData = (assetId, timeframe = '1M') => {
-    // In a real app, this would fetch data from an API
-    // For this demo, we'll use mock data
-    const asset = assets.find(a => a.id === assetId);
-    if (!asset) return null;
-
-    // Return mock historical data for the specified asset and timeframe
-    return mockHistoricalData[asset.symbol] ?
-      mockHistoricalData[asset.symbol][timeframe] :
-      mockHistoricalData.default[timeframe];
+    return null; // Placeholder
   };
 
-  // Get asset allocation by type
+  // Calculate asset allocation based on asset type
   const getAssetAllocation = () => {
     const allocation = {};
 
-    assets.forEach(asset => {
+    assets.forEach((asset) => {
       const value = asset.currentPrice * asset.quantity;
       allocation[asset.type] = (allocation[asset.type] || 0) + value;
     });
 
     return allocation;
+  };
+
+  // Clear portfolio (useful when user logs out)
+  const clearPortfolio = () => {
+    setAssets([]);
+    setPortfolioValue(0);
+    setPortfolioChangeAmount(0);
+    setPortfolioChangePercent(0);
   };
 
   const value = {
@@ -120,7 +188,9 @@ export function PortfolioProvider({ children }) {
     updateAsset,
     removeAsset,
     getAssetHistoricalData,
-    getAssetAllocation
+    getAssetAllocation,
+    loadData,
+    clearPortfolio,
   };
 
   return (

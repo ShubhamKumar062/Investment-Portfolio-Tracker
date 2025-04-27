@@ -229,7 +229,7 @@ export default function AssetList() {
                             <FiEdit2 size={16} />
                           </button>
                           <button 
-                            onClick={() => handleDelete(asset.id)}
+                            onClick={() => handleDelete(asset.taskId)}
                             className="p-2 rounded-full hover:bg-white hover:bg-opacity-10 text-error-500 transition-colors"
                             title="Delete Asset"
                           >

@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
   // Real login function
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:3777/api/user/login', {
+      const response = await fetch('https://investment-backend.vercel.app/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
   // Real signup function
   const signup = async (name, email, password) => {
     try {
-      const response = await fetch('http://localhost:3777/api/user/signup', {
+      const response = await fetch('https://investment-backend.vercel.app/api/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
