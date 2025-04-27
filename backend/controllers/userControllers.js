@@ -1,8 +1,10 @@
-const validate = require("validator");
+// const validate = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const userModels = require("../models/userModels");
 const asset = require("../models/asset.model.js");
+
 
 
 
@@ -215,6 +217,125 @@ const addAsset = async (req, res) => {
   }
 };
 
+const deleteAsset = async (req, res) => {
+
+  try {
+
+    const { assetId } = req.params;
+
+    console.log(typeof (assetId))
+
+    console.log(assetId)
+
+    if (!assetId) {
+      return res.status(403).json({
+        status: false,
+        message: "No Asset Id Found",
+        data: null
+      });
+    }
+
+    let isAssetExists = await asset.findOne({ _id: assetId });
+    console.log(isAssetExists)
+
+    if (!isAssetExists) {
+      return res.status(403).json({
+        status: false,
+        message: "No Asset Found",
+        data: null
+      });
+    }
+
+    let deleteAsset = await asset.deleteOne({ _id: assetId });
+
+    if (deleteAsset.deletedCount == 1) {
+      return res.status(200).json({
+        status: false,
+        message: "Asset Deleted Sucessfully",
+        data: null
+      });
+    } else {
+      return res.status(200).json({
+        status: false,
+        message: "Something Went wrong While deletinh the asset",
+        data: null
+      });
+
+    }
+
+  } catch (error) {
+    return res.status(200).json({
+      status: false,
+      message: error.message,
+      data: null
+    });
+  }
+
+
+};
+
+
+
+
+// const updateAsset = async (req, res) => {
+
+//   try {
+
+//     const { assetId } = req.params;
+//     const { assetId } = req.body;
+
+//     console.log(typeof (assetId))
+
+//     console.log(assetId)
+
+//     if (!assetId) {
+//       return res.status(403).json({
+//         status: false,
+//         message: "No Asset Id Found",
+//         data: null
+//       });
+//     }
+
+//     let isAssetExists = await asset.findOne({ _id: assetId });
+//     console.log(isAssetExists)
+
+//     if (!isAssetExists) {
+//       return res.status(403).json({
+//         status: false,
+//         message: "No Asset Found",
+//         data: null
+//       });
+//     }
+
+//     let deleteAsset = await asset.deleteOne({ _id: assetId });
+
+//     if (deleteAsset.deletedCount == 1) {
+//       return res.status(200).json({
+//         status: false,
+//         message: "Asset Deleted Sucessfully",
+//         data: null
+//       });
+//     } else {
+//       return res.status(200).json({
+//         status: false,
+//         message: "Something Went wrong While deletinh the asset",
+//         data: null
+//       });
+
+//     }
+
+//   } catch (error) {
+//     return res.status(200).json({
+//       status: false,
+//       message: error.message,
+//       data: null
+//     });
+//   }
+
+
+// };
+
+
 
 
 const getAssetDetails = async (req, res) => {
@@ -229,17 +350,17 @@ const getAssetDetails = async (req, res) => {
       });
     }
 
-   
+
     const transformedAssets = assetDetails.map((assetItem, index) => ({
-      id: (index + 1).toString(), 
-      taskId: assetItem._id.toString(), 
+      id: (index + 1).toString(),
+      taskId: assetItem._id.toString(),
       name: assetItem.assetName,
       symbol: assetItem.symbol,
       type: assetItem.assetType,
-      quantity: assetItem.Quantity || 0, 
+      quantity: assetItem.Quantity || 0,
       purchasePrice: assetItem.purchasePrice || 0,
       currentPrice: assetItem.currentPrice,
-      purchaseDate: assetItem.purchaseDate.toISOString().split('T')[0], 
+      purchaseDate: assetItem.purchaseDate.toISOString().split('T')[0],
       logoUrl: assetItem.logoUrl
     }));
 
@@ -264,4 +385,4 @@ const getAssetDetails = async (req, res) => {
 
 
 
-module.exports = { registerUser, loginUser, getUserData, isAuth, addAsset, getAssetDetails };
+module.exports = { registerUser, loginUser, getUserData, isAuth, addAsset, getAssetDetails, deleteAsset };
