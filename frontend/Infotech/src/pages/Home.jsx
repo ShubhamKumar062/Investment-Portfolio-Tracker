@@ -12,7 +12,7 @@ const teamMembers = [
   {
     name: "Shubham Kumar",
     role: "Project Lead",
-    image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop", 
+    image: "https://i.postimg.cc/8c7s9L51/Whats-App-Image-2025-04-27-at-9-18-16-PM.jpg", 
     description: "Lead developer and architect of Investfolio. Responsible for overall project direction and implementation.",
     social: {
       linkedin: "https://www.linkedin.com/in/shubham-kumar-57849030a/",
@@ -22,7 +22,7 @@ const teamMembers = [
   {
     name: "Pratik Zajam",
     role: "FullStack Developer",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&auto=format&fit=crop", 
+    image: "https://i.postimg.cc/3JBJ1L9g/Whats-App-Image-2025-04-27-at-8-55-01-PM.jpg", 
     description: "Specializes in React development and UI/UX design. Created the interactive dashboard and visualization components.",
     social: {
       linkedin: "https://www.linkedin.com/in/pratik-zajam/",
@@ -32,7 +32,7 @@ const teamMembers = [
   {
     name: "Ayesha Shaw",
     role: "FullStack Developer",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&auto=format&fit=crop",
+    image: "https://i.postimg.cc/HxhkwjtF/Whats-App-Image-2025-04-27-at-9-00-00-PM.jpg",
     description: "Handles server-side logic, database architecture, and API integrations for real-time data processing.",
     social: {
       linkedin: "https://www.linkedin.com/in/ayesha-shaw/",
