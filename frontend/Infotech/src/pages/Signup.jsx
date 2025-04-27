@@ -48,9 +48,9 @@ export default function Signup() {
     setLoading(true);
     
     try {
-      await signup(formData.email, formData.password, formData.name);
+      await signup(formData.name, formData.email, formData.password);
       toast.success('Account created successfully!');
-      navigate('/dashboard');
+      navigate('/login');
     } catch (error) {
       toast.error(error.message || 'Failed to create account');
     } finally {

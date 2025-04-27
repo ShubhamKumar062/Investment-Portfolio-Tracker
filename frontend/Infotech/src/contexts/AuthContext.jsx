@@ -1,4 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { jwtDecode } from "jwt-decode";
+
+
+
+
+
 
 const AuthContext = createContext(null);
 
@@ -10,7 +16,6 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is already logged in
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -19,55 +24,71 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  // Mock login function
-  const login = (email, password) => {
-    // In a real app, this would make an API call to authenticate
-    // For this demo, we'll just simulate a successful login
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simple validation
-        if (email && password) {
-          const user = {
-            id: 'user-123',
-            email: email,
-            name: email.split('@')[0],
-            avatarUrl: `https://ui-avatars.com/api/?name=${email.split('@')[0]}&background=random`
-          };
-          setCurrentUser(user);
-          localStorage.setItem('user', JSON.stringify(user));
-          resolve(user);
-        } else {
-          reject(new Error('Invalid credentials'));
-        }
-      }, 1000);
-    });
+  // Real login function
+  const login = async (email, password) => {
+    try {
+      const response = await fetch('http://localhost:3777/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to login');
+      }
+
+      const { token } = data;
+
+      // Decode token to get user info using jwt_decode
+      const decoded = jwtDecode(token); // ✅ use jwt_decode here
+
+      console.log(decoded)
+
+      const user = {
+        id: decoded.id,
+        email: decoded.email,
+        name: decoded.name,
+        token,
+      };
+
+      setCurrentUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
+  // Real signup function
+  const signup = async (name, email, password) => {
+    try {
+      const response = await fetch('http://localhost:3777/api/user/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to signup');
+      }
+
+      const user = await response.json();
+      setCurrentUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      return user;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  // Mock signup function
-  const signup = (email, password, name) => {
-    // In a real app, this would make an API call to create a new user
-    // For this demo, we'll just simulate a successful registration
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simple validation
-        if (email && password && name) {
-          const user = {
-            id: 'user-' + Date.now(),
-            email: email,
-            name: name,
-            avatarUrl: `https://ui-avatars.com/api/?name=${name}&background=random`
-          };
-          setCurrentUser(user);
-          localStorage.setItem('user', JSON.stringify(user));
-          resolve(user);
-        } else {
-          reject(new Error('Please fill all required fields'));
-        }
-      }, 1000);
-    });
-  };
-
-  // Logout function
   const logout = () => {
     localStorage.removeItem('user');
     setCurrentUser(null);
@@ -78,7 +99,7 @@ export function AuthProvider({ children }) {
     login,
     signup,
     logout,
-    loading
+    loading,
   };
 
   return (

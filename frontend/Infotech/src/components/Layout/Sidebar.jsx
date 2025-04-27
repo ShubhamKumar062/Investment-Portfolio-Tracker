@@ -129,8 +129,8 @@ export default function Sidebar() {
           ) : (
             <div className="flex justify-center p-2">
               <img 
-                src={currentUser?.avatarUrl || 'https://ui-avatars.com/api/?name=User&background=random'} 
-                alt="Profile" 
+                src={currentUser?.avatarUrl || `https://ui-avatars.com/api/?name=Pratik&background=random`} 
+                alt="Profiles" 
                 className="w-10 h-10 rounded-full"
               />
             </div>
