@@ -5,6 +5,7 @@ import { FiPlus } from 'react-icons/fi';
 import Sidebar from '../components/Layout/Sidebar';
 import AssetList from '../components/Assets/AssetList';
 import AssetForm from '../components/Assets/AssetForm';
+import ChatBotToggle from '../components/chatbot';
 
 export default function Portfolio() {
   const [showAddAsset, setShowAddAsset] = useState(false);
@@ -40,7 +41,7 @@ export default function Portfolio() {
             </button>
           </motion.div>
         </div>
-        
+        <ChatBotToggle />
         {/* Asset List */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

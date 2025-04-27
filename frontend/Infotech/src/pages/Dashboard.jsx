@@ -9,6 +9,7 @@ import AssetAllocation from '../components/Dashboard/AssetAllocation';
 import TopAssets from '../components/Dashboard/TopAssets';
 import AssetForm from '../components/Assets/AssetForm';
 import { useAuth } from '../contexts/AuthContext';
+import ChatBotToggle from '../components/chatbot';
 
 export default function Dashboard() {
   const [showAddAsset, setShowAddAsset] = useState(false);
@@ -107,6 +108,7 @@ export default function Dashboard() {
         </div>
       </div>
       
+      <ChatBotToggle />
       {/* Add Asset Modal */}
       <AnimatePresence>
         {showAddAsset && (
