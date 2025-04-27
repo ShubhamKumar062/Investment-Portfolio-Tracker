@@ -16,7 +16,6 @@ The Investment Portfolio Tracker provides a comprehensive solution for investors
 ```
 📦 Investment-Portfolio-Tracker
 ├── 🎯 frontend
-│   └── Infotech
 │       ├── 📱 src
 │       │   ├── components
 │       │   ├── pages
