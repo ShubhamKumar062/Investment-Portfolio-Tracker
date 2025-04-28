@@ -2,7 +2,7 @@
 
 A full-stack investment portfolio tracking application built with the MERN stack (MongoDB, Express.js, React, Node.js). This application helps investors manage and track their investment portfolios across multiple asset classes including stocks, commodities, forex, bonds, ETFs, and cryptocurrencies.
 
-🌐 Live Demo: https://investment-frontend-peach.vercel.app
+🌐 **Live Demo:** https://investfolio.vercel.app
 
 ## Overview 🌟
 
@@ -74,8 +74,8 @@ The Investment Portfolio Tracker provides a comprehensive solution for investors
 
 1. Clone the repository
 ```bash
-git clone https://github.com/ShubhamKumar062/Investment-Portfolio-Tracker.git
-cd Investment-Portfolio-Tracker
+git clone https://github.com/ayeshashaw/Investfolio-Investment-Portfolio-Tracker.git
+cd Investfolio-Investment-Portfolio-Tracker
 ```
 
 2. Set up environment variables
@@ -84,9 +84,6 @@ cd Investment-Portfolio-Tracker
 PORT=3777
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-EMAIL_SERVICE=your_email_service
-EMAIL_USER=your_email_username
-EMAIL_PASS=your_email_password
 ```
 
 3. Install Backend Dependencies
@@ -190,6 +187,31 @@ Common Issues:
 
 ## Features 💫
 
+### Interface Screenshots 📸
+
+#### Home Page
+![Home](frontend/public/images/home.png)
+The landing page with key features and call-to-action.
+
+#### Dashboard
+![Dashboard](frontend/public/images/dashboard.png)
+The dashboard provides an overview of portfolio performance and asset allocation.
+
+#### Assets Management
+![Assets](frontend/public/images/porfolio.png)
+Users can view and manage all their investment assets in one place.
+
+#### Portfolio Comparison
+![Comparison](frontend/public/images/comparison.png)
+Compare performance across different portfolios and time periods.
+
+
+
+#### Team
+![Team](frontend/public/images/ourTeam.png)
+Information about the development team behind the application.
+
+
 ### User Authentication and Authorization 🔐
 - Secure user registration and login system
 - JWT-based authentication
@@ -224,11 +246,6 @@ Common Issues:
 - Asset allocation pie charts
 - Gain/loss visualization
 
-### Email Notifications 📧
-- Price alert notifications
-- Portfolio performance updates
-- Account security alerts
-- Custom notification preferences
 
 ### Responsive Design 🎨
 - Mobile-first approach
