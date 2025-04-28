@@ -206,7 +206,6 @@ Users can view and manage all their investment assets in one place.
 Compare performance across different portfolios and time periods.
 
 
-
 #### Team
 ![Team](frontend/public/images/ourTeam.png)
 Information about the development team behind the application.
@@ -257,5 +256,3 @@ Information about the development team behind the application.
 ## Contributing 🤝
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License 📄
-This project is licensed under the ISC License.
