@@ -74,7 +74,7 @@ The Investment Portfolio Tracker provides a comprehensive solution for investors
 
 1. Clone the repository
 ```bash
-git clone https://github.com/ayeshashaw/Investfolio-Investment-Portfolio-Tracker.git
+git clone https://github.com/ShubhamKumar062/Investment-Portfolio-Tracker.git
 cd Investfolio-Investment-Portfolio-Tracker
 ```
 
